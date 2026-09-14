@@ -1,0 +1,51 @@
+{
+  "BTC/USDT": {
+    "status": "open",
+    "direction": "BUY",
+    "level": "B",
+    "entry": 77535.8,
+    "stop_loss": 77100.0157,
+    "tp1": 77971.5843,
+    "tp2": 78407.3686,
+    "tp3": 78843.1529,
+    "position_size": 0.011474,
+    "risk_dollars": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "tp3_hit": false,
+    "opened_at": "2026-09-14T02:30:33.278899",
+    "last_checked": "2026-09-14T09:00:00"
+  },
+  "ETH/USDT": {
+    "status": "closed",
+    "direction": "SELL",
+    "level": "B",
+    "entry": 2484.3,
+    "stop_loss": 2503.2319,
+    "tp1": 2465.3681,
+    "tp2": 2446.4363,
+    "tp3": 2427.5044,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "tp3_hit": false,
+    "opened_at": "2026-09-14T00:21:47.180388",
+    "last_checked": "2026-09-14T02:30:00",
+    "closed_reason": "stop_loss"
+  },
+  "SOL/USDT": {
+    "status": "closed",
+    "direction": "SELL",
+    "level": "A",
+    "entry": 99.62,
+    "stop_loss": 100.5064,
+    "tp1": 98.7336,
+    "tp2": 97.8471,
+    "tp3": 96.9607,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "tp3_hit": false,
+    "opened_at": "2026-09-14T00:21:47.180391",
+    "last_checked": "2026-09-14T02:15:00",
+    "closed_reason": "stop_loss"
+  }
+}
