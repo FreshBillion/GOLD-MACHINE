@@ -47,6 +47,10 @@ RISK_DOLLARS_BY_LEVEL = {
     "B": 5,
 }
 
+# Standard XAU/USD contract size — 1 lot = 100 oz on virtually every gold/CFD broker.
+# Verify this matches your specific platform before trusting the lot number below.
+LOT_SIZE = 100
+
 # Signal tiers — how many of the 4 conditions (trend, MACD, RSI, volume) must align
 LEVEL_LABELS = {
     4: "A+",
