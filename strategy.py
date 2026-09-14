@@ -88,6 +88,7 @@ def check_setup(symbol: str, df: pd.DataFrame) -> dict | None:
     # Position size: sized so risking this stop distance equals the target dollar risk
     risk_dollars = RISK_DOLLARS_BY_LEVEL.get(level, 5)
     position_size = round(risk_dollars / stop_distance, 6)
+    position_size_lots = round(position_size / LOT_SIZE, 5)
 
     # TPs are R-multiples of the same stop distance — they scale with volatility too
     tp1_distance = stop_distance * TP1_R
