@@ -59,6 +59,13 @@ LEVEL_LABELS = {
 }
 MIN_CONDITIONS_TO_SIGNAL = 2
 
+
+# Gold/CFD platforms trade in lots, minimum size 0.01 lot (1 oz), moving in 0.01 steps.
+# Verify this matches your specific platform.
+OZ_PER_LOT = 100
+MIN_LOT_SIZE = 0.01
+LOT_STEP = 0.01
+
 # After TP2 hits, move the stop-loss to entry (breakeven)
 MOVE_SL_TO_BREAKEVEN_AFTER_TP2 = True
 
