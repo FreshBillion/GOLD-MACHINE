@@ -30,7 +30,7 @@ def format_signal(signal: dict) -> str:
         f"{emoji} *{signal['level']} SETUP — {signal['direction']}* — {signal['symbol']}\n\n"
         f"Entry: `{signal['entry']}`\n"
         f"Stop Loss: `{signal['stop_loss']}`  (risk: ${risk})\n"
-        f"Position size: `{signal['position_size']}` BTC\n\n"
+        f"Position size: `{signal['position_size_lots']}` lots  ({signal['position_size']} oz)\n\n"
         f"TP1: `{signal['tp1']}`  (+${tp1_dollars})\n"
         f"TP2: `{signal['tp2']}`  (+${tp2_dollars})\n"
         f"TP3: `{signal['tp3']}`  (+${tp3_dollars})\n\n"
