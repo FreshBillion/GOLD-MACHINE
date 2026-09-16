@@ -4,16 +4,16 @@
     "direction": "SELL",
     "level": "A",
     "entry": 4314.08,
-    "stop_loss": 4331.1294,
+    "stop_loss": 4314.08,
     "tp1": 4297.0306,
     "tp2": 4279.9812,
     "tp3": 4262.9318,
     "position_size": 1.0,
     "risk_dollars": 17.05,
     "tp1_hit": true,
-    "tp2_hit": false,
+    "tp2_hit": true,
     "tp3_hit": false,
     "opened_at": "2026-09-16T18:15:31.484466",
-    "last_checked": "2026-09-16T18:33:00"
+    "last_checked": "2026-09-16T18:35:00"
   }
 }
