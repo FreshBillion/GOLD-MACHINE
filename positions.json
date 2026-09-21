@@ -10,10 +10,10 @@
     "tp3": 4373.7959,
     "position_size": 2.0,
     "risk_dollars": 9.65,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
     "tp3_hit": false,
     "opened_at": "2026-09-21T00:30:34.754671",
-    "last_checked": "2026-09-21T00:39:00"
+    "last_checked": "2026-09-21T00:41:00"
   }
 }
