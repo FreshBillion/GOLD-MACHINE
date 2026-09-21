@@ -1,6 +1,6 @@
 {
   "PAXG/USD": {
-    "status": "open",
+    "status": "closed",
     "direction": "BUY",
     "level": "B",
     "entry": 4359.32,
@@ -12,8 +12,9 @@
     "risk_dollars": 9.65,
     "tp1_hit": true,
     "tp2_hit": true,
-    "tp3_hit": false,
+    "tp3_hit": true,
     "opened_at": "2026-09-21T00:30:34.754671",
-    "last_checked": "2026-09-21T01:45:00"
+    "last_checked": "2026-09-21T01:48:00",
+    "closed_reason": "tp3_hit"
   }
 }
