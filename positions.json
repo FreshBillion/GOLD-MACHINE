@@ -1,20 +1,19 @@
 {
   "PAXG/USD": {
-    "status": "closed",
-    "direction": "BUY",
+    "status": "open",
+    "direction": "SELL",
     "level": "B",
-    "entry": 4341.15,
-    "stop_loss": 4328.935,
-    "tp1": 4353.365,
-    "tp2": 4365.58,
-    "tp3": 4377.795,
+    "entry": 4329.65,
+    "stop_loss": 4342.5073,
+    "tp1": 4316.7927,
+    "tp2": 4303.9355,
+    "tp3": 4291.0782,
     "position_size": 1.0,
-    "risk_dollars": 12.21,
+    "risk_dollars": 12.86,
     "tp1_hit": false,
     "tp2_hit": false,
     "tp3_hit": false,
-    "opened_at": "2026-09-22T03:00:31.563637",
-    "last_checked": "2026-09-22T05:26:00",
-    "closed_reason": "stop_loss"
+    "opened_at": "2026-09-22T05:30:32.129875",
+    "last_checked": "2026-09-22T05:30:32.129875"
   }
 }
