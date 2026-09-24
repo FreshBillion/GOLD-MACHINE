@@ -39,6 +39,7 @@ def open_position(positions: dict, signal: dict) -> None:
         "tp3": signal["tp3"],
         "position_size": signal["position_size"],
         "risk_dollars": signal["risk_dollars"],
+        "last_signal_candle": signal["candle_time"],
         "tp1_hit": False,
         "tp2_hit": False,
         "tp3_hit": False,
