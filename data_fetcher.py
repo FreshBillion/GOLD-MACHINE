@@ -1,4 +1,6 @@
 # data_fetcher.py — pulls candle (OHLC) data from Twelve Data for real XAU/USD gold prices
+# timezone is forced to UTC explicitly — Twelve Data defaults to exchange-local time otherwise,
+# which silently breaks every "since last check" calculation in this codebase
 
 import requests
 import pandas as pd
@@ -29,6 +31,7 @@ def fetch_candles(symbol: str) -> pd.DataFrame:
         "symbol": symbol,
         "interval": TIMEFRAME,
         "outputsize": CANDLE_LIMIT,
+        "timezone": "UTC",
         "apikey": TWELVE_DATA_API_KEY,
     }
     response = requests.get(BASE_URL, params=params)
@@ -41,6 +44,7 @@ def fetch_since(symbol: str, since_ms: int, timeframe: str = "1min") -> pd.DataF
         "symbol": symbol,
         "interval": timeframe,
         "start_date": start_date,
+        "timezone": "UTC",
         "apikey": TWELVE_DATA_API_KEY,
     }
     response = requests.get(BASE_URL, params=params)
