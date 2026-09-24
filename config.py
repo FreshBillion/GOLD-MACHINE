@@ -1,14 +1,16 @@
 import os
-TELEGRAM_PERSONAL_CHAT_ID = os.environ.get("TELEGRAM_PERSONAL_CHAT_ID")
+
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID")
+TELEGRAM_PERSONAL_CHAT_ID = os.environ.get("TELEGRAM_PERSONAL_CHAT_ID")
+TWELVE_DATA_API_KEY = os.environ.get("TWELVE_DATA_API_KEY")
 
-SYMBOLS = ["PAXG/USD"]
+SYMBOLS = ["XAU/USD"]
 
 TIMEFRAME = "1h"
 CANDLE_LIMIT = 250
 
-POSITION_CHECK_TIMEFRAME = "1m"
+POSITION_CHECK_TIMEFRAME = "1min"
 
 EMA_FAST = 50
 EMA_SLOW = 200
@@ -21,11 +23,10 @@ MACD_SIGNAL = 9
 VOLUME_MA_PERIOD = 20
 VOLUME_MULTIPLIER = 1.5
 
-# Tightened vs. crypto — PAXG's ATR runs wide relative to typical gold stop sizes
 ATR_PERIOD = 14
 ATR_SL_MULTIPLIER = 1.0
-MIN_SL_PERCENT = 0.001    # ~$4 on gold near $4,300
-MAX_SL_PERCENT = 0.004    # ~$17 on gold near $4,300
+MIN_SL_DOLLARS = 10
+MAX_SL_DOLLARS = 12
 
 TP1_R = 1.0
 TP2_R = 2.0
@@ -37,8 +38,6 @@ RISK_DOLLARS_BY_LEVEL = {
     "B": 5,
 }
 
-# Gold/CFD platforms trade in lots, minimum size 0.01 lot (1 oz), moving in 0.01 steps.
-# Verify this matches your specific platform.
 OZ_PER_LOT = 100
 MIN_LOT_SIZE = 0.01
 LOT_STEP = 0.01
