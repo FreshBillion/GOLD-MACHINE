@@ -7,7 +7,7 @@ from ta.volatility import AverageTrueRange
 from config import (
     EMA_FAST, EMA_SLOW, RSI_PERIOD, RSI_OVERBOUGHT, RSI_OVERSOLD,
     MACD_FAST, MACD_SLOW, MACD_SIGNAL, VOLUME_MA_PERIOD, VOLUME_MULTIPLIER,
-    ATR_PERIOD, ATR_SL_MULTIPLIER, MIN_SL_PERCENT, MAX_SL_PERCENT,
+    ATR_PERIOD, ATR_SL_MULTIPLIER, MIN_SL_DOLLARS, MAX_SL_DOLLARS,
     TP1_R, TP2_R, TP3_R, RISK_DOLLARS_BY_LEVEL,
     OZ_PER_LOT, MIN_LOT_SIZE, LOT_STEP,
     LEVEL_LABELS, MIN_CONDITIONS_TO_SIGNAL
@@ -70,16 +70,14 @@ def check_setup(symbol, df):
     atr = last["atr"]
 
     atr_distance = atr * ATR_SL_MULTIPLIER
-    min_distance = entry * MIN_SL_PERCENT
-    max_distance = entry * MAX_SL_PERCENT
-    stop_distance = max(min_distance, min(atr_distance, max_distance))
+    stop_distance = max(MIN_SL_DOLLARS, min(atr_distance, MAX_SL_DOLLARS))
 
     target_risk = RISK_DOLLARS_BY_LEVEL.get(level, 5)
     raw_oz = target_risk / stop_distance
     raw_lots = raw_oz / OZ_PER_LOT
     position_size_lots = round(max(MIN_LOT_SIZE, math.ceil(raw_lots / LOT_STEP) * LOT_STEP), 2)
     position_size_oz = round(position_size_lots * OZ_PER_LOT, 4)
-    risk_dollars = round(position_size_oz * stop_distance, 2)  # real risk after rounding to a tradable lot
+    risk_dollars = round(position_size_oz * stop_distance, 2)
 
     tp1_distance = stop_distance * TP1_R
     tp2_distance = stop_distance * TP2_R
@@ -106,6 +104,7 @@ def check_setup(symbol, df):
         "position_size_lots": position_size_lots,
         "risk_dollars": risk_dollars,
         "rsi": round(last["rsi"], 1),
+        "candle_time": last.name.isoformat(),
     }
 
 
