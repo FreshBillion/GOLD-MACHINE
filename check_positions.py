@@ -1,9 +1,7 @@
 # check_positions.py — checks open positions by replaying candle history since the last
-# confirmed checkpoint (strictly forward only — no backward lookback, which was
-# causing old candles to be re-checked against a stop level that didn't exist yet).
-# Only uses fully-closed candles — a still-forming candle's high/low can be a fleeting
-# artifact of one in-progress trade rather than a real, settled price move.
+# confirmed checkpoint (strictly forward only). Only uses fully-closed candles.
 
+import re
 from datetime import datetime, timedelta
 
 from data_fetcher import fetch_since
@@ -13,11 +11,13 @@ from config import POSITION_CHECK_TIMEFRAME
 
 
 def _timeframe_to_timedelta(tf: str) -> timedelta:
-    unit = tf[-1]
-    value = int(tf[:-1])
-    if unit == "h":
+    match = re.match(r"(\d+)([a-zA-Z]+)", tf)
+    value, unit = int(match.group(1)), match.group(2).lower()
+    if unit in ("m", "min"):
+        return timedelta(minutes=value)
+    if unit in ("h", "hour"):
         return timedelta(hours=value)
-    if unit == "d":
+    if unit in ("d", "day"):
         return timedelta(days=value)
     return timedelta(minutes=value)
 
@@ -44,7 +44,7 @@ def run():
         pos = positions[symbol]
 
         last_checked_ms = int(datetime.fromisoformat(pos.get("last_checked", pos["opened_at"])).timestamp() * 1000)
-        since_ms = last_checked_ms + 1   # strictly forward — never re-check already-processed candles
+        since_ms = last_checked_ms + 1
 
         candles = fetch_since(symbol, since_ms, timeframe=POSITION_CHECK_TIMEFRAME)
         candles = _drop_forming_candle(candles, POSITION_CHECK_TIMEFRAME)
