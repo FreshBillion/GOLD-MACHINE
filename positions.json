@@ -1,21 +1,20 @@
 {
   "XAU/USD": {
-    "status": "closed",
-    "direction": "SELL",
+    "status": "open",
+    "direction": "BUY",
     "level": "B",
-    "entry": 4272.3418,
-    "stop_loss": 4284.3418,
-    "tp1": 4260.3418,
-    "tp2": 4248.3418,
-    "tp3": 4236.3418,
+    "entry": 4286.613,
+    "stop_loss": 4274.613,
+    "tp1": 4298.613,
+    "tp2": 4310.613,
+    "tp3": 4322.613,
     "position_size": 1.0,
     "risk_dollars": 12.0,
-    "last_signal_candle": "2026-09-24T19:00:00",
+    "last_signal_candle": "2026-09-25T01:00:00",
     "tp1_hit": false,
     "tp2_hit": false,
     "tp3_hit": false,
-    "opened_at": "2026-09-24T19:40:20.686488",
-    "last_checked": "2026-09-25T01:08:00",
-    "closed_reason": "stop_loss"
+    "opened_at": "2026-09-25T01:15:37.553736",
+    "last_checked": "2026-09-25T01:15:37.553736"
   }
 }
