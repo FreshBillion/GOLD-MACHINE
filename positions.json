@@ -1,6 +1,6 @@
 {
   "XAU/USD": {
-    "status": "open",
+    "status": "closed",
     "direction": "BUY",
     "level": "B",
     "entry": 4292.81,
@@ -15,6 +15,7 @@
     "tp2_hit": false,
     "tp3_hit": false,
     "opened_at": "2026-09-25T16:30:33.011179",
-    "last_checked": "2026-09-25T17:37:00"
+    "last_checked": "2026-09-25T17:38:00",
+    "closed_reason": "stop_loss"
   }
 }
