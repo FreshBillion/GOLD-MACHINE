@@ -11,10 +11,10 @@
     "position_size": 1.0,
     "risk_dollars": 12.0,
     "last_signal_candle": "2026-09-25T08:00:00",
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
     "tp3_hit": false,
     "opened_at": "2026-09-25T08:45:27.670609",
-    "last_checked": "2026-09-25T10:08:00"
+    "last_checked": "2026-09-25T10:12:00"
   }
 }
