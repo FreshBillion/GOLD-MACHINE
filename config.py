@@ -20,8 +20,11 @@ RSI_OVERSOLD = 30
 MACD_FAST = 12
 MACD_SLOW = 26
 MACD_SIGNAL = 9
-VOLUME_MA_PERIOD = 20
-VOLUME_MULTIPLIER = 1.5
+
+# ADX measures trend strength (not direction) — filters out choppy, range-bound
+# conditions where trend-following signals tend to whipsaw and stop out repeatedly
+ADX_PERIOD = 14
+ADX_THRESHOLD = 25
 
 ATR_PERIOD = 14
 ATR_SL_MULTIPLIER = 1.0
