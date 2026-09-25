@@ -1,12 +1,12 @@
 import math
 import pandas as pd
-from ta.trend import EMAIndicator, MACD
+from ta.trend import EMAIndicator, MACD, ADXIndicator
 from ta.momentum import RSIIndicator
 from ta.volatility import AverageTrueRange
 
 from config import (
     EMA_FAST, EMA_SLOW, RSI_PERIOD, RSI_OVERBOUGHT, RSI_OVERSOLD,
-    MACD_FAST, MACD_SLOW, MACD_SIGNAL, VOLUME_MA_PERIOD, VOLUME_MULTIPLIER,
+    MACD_FAST, MACD_SLOW, MACD_SIGNAL, ADX_PERIOD, ADX_THRESHOLD,
     ATR_PERIOD, ATR_SL_MULTIPLIER, MIN_SL_DOLLARS, MAX_SL_DOLLARS,
     TP1_R, TP2_R, TP3_R, RISK_DOLLARS_BY_LEVEL,
     OZ_PER_LOT, MIN_LOT_SIZE, LOT_STEP,
@@ -21,7 +21,7 @@ def add_indicators(df):
     macd = MACD(df["close"], window_fast=MACD_FAST, window_slow=MACD_SLOW, window_sign=MACD_SIGNAL)
     df["macd"] = macd.macd()
     df["macd_signal"] = macd.macd_signal()
-    df["volume_ma"] = df["volume"].rolling(VOLUME_MA_PERIOD).mean()
+    df["adx"] = ADXIndicator(df["high"], df["low"], df["close"], window=ADX_PERIOD).adx()
     df["atr"] = AverageTrueRange(df["high"], df["low"], df["close"], window=ATR_PERIOD).average_true_range()
     return df
 
@@ -42,8 +42,8 @@ def score_direction(last, direction):
             matched.append("MACD")
         if RSI_OVERSOLD < last["rsi"] < 50:
             matched.append("RSI")
-    if last["volume"] > (last["volume_ma"] * VOLUME_MULTIPLIER):
-        matched.append("Volume")
+    if last["adx"] > ADX_THRESHOLD:
+        matched.append("ADX")
     return len(matched), matched
 
 
