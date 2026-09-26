@@ -1,11 +1,12 @@
-# positions.py — shared logic for tracking open signals and checking TP/SL hits
-# by replaying candle history since the last check, not just the current price
+# positions.py — tracks the single open engulfing signal and checks TP/SL hits.
+# TP1/TP2 are milestones (they move the stop, they don't close the trade);
+# the stop moves to breakeven after TP2. Only TP3 or the stop actually closes it.
 
 import json
 import os
 from datetime import datetime, timedelta
 
-from config import MOVE_SL_TO_BREAKEVEN_AFTER_TP2, POSITION_EXPIRY_HOURS
+from config import POSITION_EXPIRY_HOURS, POSITION_LOT_SIZE
 
 POSITIONS_FILE = "positions.json"
 
@@ -31,30 +32,22 @@ def open_position(positions: dict, signal: dict) -> None:
     positions[signal["symbol"]] = {
         "status": "open",
         "direction": signal["direction"],
-        "level": signal["level"],
         "entry": signal["entry"],
         "stop_loss": signal["stop_loss"],
         "tp1": signal["tp1"],
         "tp2": signal["tp2"],
         "tp3": signal["tp3"],
-        "position_size": signal["position_size"],
-        "risk_dollars": signal["risk_dollars"],
-        "last_signal_candle": signal["candle_time"],
+        "position_size": POSITION_LOT_SIZE,
         "tp1_hit": False,
         "tp2_hit": False,
         "tp3_hit": False,
         "opened_at": now,
         "last_checked": now,
+        "last_signal_candle": signal["candle_time"],
     }
 
 
 def check_position(symbol: str, pos: dict, candles) -> list:
-    """
-    Replays every candle since the last check (oldest first), testing each one's
-    high/low against the position's levels. This catches a TP or SL touch even
-    if the check itself runs late and the price has since moved away again.
-    Mutates pos in place. Returns a list of event dicts for anything that happened.
-    """
     events = []
     is_buy = pos["direction"] == "BUY"
 
@@ -80,9 +73,8 @@ def check_position(symbol: str, pos: dict, candles) -> list:
             if touched:
                 pos["tp2_hit"] = True
                 events.append({"type": "tp2_hit", "symbol": symbol, "price": pos["tp2"]})
-                if MOVE_SL_TO_BREAKEVEN_AFTER_TP2:
-                    pos["stop_loss"] = pos["entry"]
-                    events.append({"type": "breakeven_set", "symbol": symbol, "price": pos["entry"]})
+                pos["stop_loss"] = pos["entry"]
+                events.append({"type": "breakeven_set", "symbol": symbol, "price": pos["entry"]})
 
         if not pos["tp3_hit"]:
             touched = (high >= pos["tp3"]) if is_buy else (low <= pos["tp3"])
