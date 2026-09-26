@@ -1,7 +1,9 @@
+# telegram_sender.py — formats and sends engulfing-pattern signals + TP/SL updates
+
 import requests
 from config import (
     TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID, TELEGRAM_PERSONAL_CHAT_ID,
-    TP1_R, TP2_R, TP3_R
+    SL_DOLLARS, TP1_DOLLARS, TP2_DOLLARS, TP3_DOLLARS
 )
 
 
@@ -14,41 +16,25 @@ def _send(message: str, chat_id: str) -> bool:
     return response.status_code == 200
 
 
-def format_signal_public(signal: dict) -> str:
+def format_signal(signal: dict) -> str:
     emoji = "🟢" if signal["direction"] == "BUY" else "🔴"
-    risk = signal["risk_dollars"]
-    tp1_dollars = round(risk * TP1_R, 2)
-    tp2_dollars = round(risk * TP2_R, 2)
-    tp3_dollars = round(risk * TP3_R, 2)
-
     return (
-        f"{emoji} *{signal['level']} SETUP — {signal['direction']}* — {signal['symbol']}\n\n"
+        f"{emoji} *ENGULFING SETUP — {signal['direction']}* — {signal['symbol']}\n\n"
         f"Entry: `{signal['entry']}`\n"
-        f"Stop Loss: `{signal['stop_loss']}`  (risk: ${risk})\n"
-        f"Position size: `{signal['position_size_lots']}` lots  ({signal['position_size']} oz)\n\n"
-        f"TP1: `{signal['tp1']}`  (+${tp1_dollars})\n"
-        f"TP2: `{signal['tp2']}`  (+${tp2_dollars})\n"
-        f"TP3: `{signal['tp3']}`  (+${tp3_dollars})\n\n"
-        f"RSI: {signal['rsi']}\n\n"
+        f"Stop Loss: `{signal['stop_loss']}`  (-${SL_DOLLARS})\n\n"
+        f"TP1: `{signal['tp1']}`  (+${TP1_DOLLARS})\n"
+        f"TP2: `{signal['tp2']}`  (+${TP2_DOLLARS})\n"
+        f"TP3: `{signal['tp3']}`  (+${TP3_DOLLARS})\n\n"
+        f"See pinned message for position sizing options.\n\n"
         f"_Not financial advice. Trade at your own risk._"
     )
 
 
-def format_signal_private(signal: dict) -> str:
-    conditions = ", ".join(signal["conditions_met"])
-    return format_signal_public(signal) + f"\n\nConditions met: {conditions}"
-
-
 def send_signal(signal: dict) -> bool:
-    public_ok = _send(format_signal_public(signal), TELEGRAM_CHANNEL_ID)
+    public_ok = _send(format_signal(signal), TELEGRAM_CHANNEL_ID)
     if TELEGRAM_PERSONAL_CHAT_ID:
-        _send(format_signal_private(signal), TELEGRAM_PERSONAL_CHAT_ID)
+        _send(format_signal(signal), TELEGRAM_PERSONAL_CHAT_ID)
     return public_ok
-
-
-def send_all(signals: list) -> None:
-    for signal in signals:
-        send_signal(signal)
 
 
 EVENT_MESSAGES = {
@@ -61,7 +47,7 @@ EVENT_MESSAGES = {
     "breakeven_set": None,
 }
 
-EVENT_R_MULTIPLES = {"tp1_hit": TP1_R, "tp2_hit": TP2_R, "tp3_hit": TP3_R}
+EVENT_DOLLARS = {"tp1_hit": TP1_DOLLARS, "tp2_hit": TP2_DOLLARS, "tp3_hit": TP3_DOLLARS}
 
 
 def send_update(event: dict, pos: dict) -> bool:
@@ -69,18 +55,15 @@ def send_update(event: dict, pos: dict) -> bool:
         return True
 
     header = EVENT_MESSAGES[event["type"]]
-    risk = pos.get("risk_dollars", 0)
-
     extra = ""
-    if event["type"] in EVENT_R_MULTIPLES:
-        dollars = round(risk * EVENT_R_MULTIPLES[event["type"]], 2)
-        extra = f"  (+${dollars})"
+    if event["type"] in EVENT_DOLLARS:
+        extra = f"  (+${EVENT_DOLLARS[event['type']]})"
     elif event["type"] == "stop_loss":
-        extra = f"  (-${risk})"
+        extra = f"  (-${SL_DOLLARS})"
 
     message = (
         f"{header}{extra}\n\n"
-        f"{event['symbol']} — {pos['level']} setup — {pos['direction']}\n"
+        f"{event['symbol']} — {pos['direction']}\n"
         f"Entry: `{pos['entry']}`\n"
         f"Price now: `{round(event['price'], 4)}`"
     )
