@@ -18,7 +18,9 @@ MIN_ENGULF_RATIO = 1.0
 
 # Each of the 3 legs is a fixed 0.01 lot (1 oz) position — this matches how
 # the backtest computed dollar results directly from price distance
-LOT_SIZE_PER_LEG = 0.01
+# Fixed position size — matches how the backtest computed dollar results
+# directly from price distance (a $X move = $X per 0.01 lot / 1 oz)
+POSITION_LOT_SIZE = 0.01
 OZ_PER_LOT = 100
 
 SL_DOLLARS = 10
