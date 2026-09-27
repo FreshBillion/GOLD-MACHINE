@@ -1,6 +1,6 @@
 # strategy.py — detects Bullish/Bearish Engulfing patterns filtered by swing
 # prominence. Backtested at prominence >= 20 over ~3 years of XAU/USD 1h data.
-
+from config import STRATEGY_NAME_VEGA
 import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
@@ -25,6 +25,8 @@ def _build_signal(direction: str, entry: float, candle_time: str) -> dict:
     return {
         "symbol": SYMBOL,
         "direction": direction,
+        "market_symbol": symbol,
+        "strategy_name": STRATEGY_NAME_VEGA,
         "entry": round(entry, 4),
         "stop_loss": round(stop_loss, 4),
         "tp1": round(tp1, 4),
