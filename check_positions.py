@@ -1,5 +1,6 @@
-# check_positions.py — checks open positions by replaying candle history since the last
-# confirmed checkpoint (strictly forward only). Only uses fully-closed candles.
+# check_positions.py — checks open positions (Vega and/or Comet) by replaying
+# candle history since the last confirmed checkpoint. Uses each position's
+# stored market_symbol for price-fetching, not the tracking key itself.
 
 import re
 from datetime import datetime, timedelta
@@ -42,11 +43,12 @@ def run():
 
     for symbol in open_symbols:
         pos = positions[symbol]
+        market_symbol = pos.get("market_symbol", symbol)
 
         last_checked_ms = int(datetime.fromisoformat(pos.get("last_checked", pos["opened_at"])).timestamp() * 1000)
         since_ms = last_checked_ms + 1
 
-        candles = fetch_since(symbol, since_ms, timeframe=POSITION_CHECK_TIMEFRAME)
+        candles = fetch_since(market_symbol, since_ms, timeframe=POSITION_CHECK_TIMEFRAME)
         candles = _drop_forming_candle(candles, POSITION_CHECK_TIMEFRAME)
 
         if candles.empty:
