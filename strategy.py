@@ -25,7 +25,7 @@ def _build_signal(direction: str, entry: float, candle_time: str) -> dict:
     return {
         "symbol": SYMBOL,
         "direction": direction,
-        "market_symbol": symbol,
+        "market_symbol": SYMBOL,
         "strategy_name": STRATEGY_NAME_VEGA,
         "entry": round(entry, 4),
         "stop_loss": round(stop_loss, 4),
