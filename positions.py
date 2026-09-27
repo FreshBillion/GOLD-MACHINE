@@ -1,12 +1,12 @@
-# positions.py — tracks the single open engulfing signal and checks TP/SL hits.
-# TP1/TP2 are milestones (they move the stop, they don't close the trade);
-# the stop moves to breakeven after TP2. Only TP3 or the stop actually closes it.
+# positions.py — tracks open signals (now shared by Vega and Comet) and checks
+# TP/SL hits. Stores market_symbol separately from the tracking key, since
+# Comet's key ("XAU/USD-COMET") isn't a real fetchable symbol on its own.
 
 import json
 import os
 from datetime import datetime, timedelta
 
-from config import POSITION_EXPIRY_HOURS, POSITION_LOT_SIZE
+from config import POSITION_EXPIRY_HOURS
 
 POSITIONS_FILE = "positions.json"
 
@@ -37,7 +37,7 @@ def open_position(positions: dict, signal: dict) -> None:
         "tp1": signal["tp1"],
         "tp2": signal["tp2"],
         "tp3": signal["tp3"],
-        "position_size": POSITION_LOT_SIZE,
+        "market_symbol": signal.get("market_symbol", signal["symbol"]),
         "tp1_hit": False,
         "tp2_hit": False,
         "tp3_hit": False,
